@@ -5,25 +5,17 @@ const url="http://103.212.121.222:3000/task/1137/report/details/new";
 function App(){
   const [questions,setQuestions]=useState([]);
   const [answers,setAnswers]=useState([]);
-  const [userId,setUserId]=useState(0);
-  const [taskId,setTaskId]=useState(0);
 
   useEffect(()=>{
     const fetchCall=async ()=>{
       const res1=await fetch(url);
       const res2=await res1.json()
       const {task_questions,task_answers}=res2;
-      const [ansObj]=task_answers;
-      const {user_id,task_id,answer}=ansObj;
-      console.log(user_id,task_id);
-      
-      setTaskId(task_id);
-      setUserId(user_id)
       const allQuestions=task_questions.map(({question})=>question);
-      const allAnswers=answer.map(({answer})=>answer);
-      console.log(ansObj);
+
+      console.log(task_answers);
       setQuestions([...allQuestions]);
-      setAnswers([...allAnswers]);
+      setAnswers([...task_answers])
     }
     fetchCall();
   },[])
@@ -39,11 +31,13 @@ function App(){
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{userId}</td>
-            <td>{taskId}</td>
-            {answers.map((a,idx)=> <td key={idx}>{a}</td>)}
-          </tr>
+         {answers.map(({task_id,user_id,answer})=>{
+           return <tr>
+             <td>{task_id}</td>
+             <td>{user_id}</td>
+             {answer.map(({answer},idx)=> <td key={idx}>{answer}</td>)}
+           </tr>
+         })}
         </tbody>
       </table>
     </div>

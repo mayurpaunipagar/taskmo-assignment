@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+table,td,th{
+  border: 2px solid blue;
+  border-collapse: collapse;
+  padding:5px;
+}
